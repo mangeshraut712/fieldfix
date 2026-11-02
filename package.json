@@ -1,0 +1,33 @@
+{
+  "name": "fieldfix",
+  "version": "1.0.0",
+  "description": "FieldFix: photo to repair steps with Meta Muse Spark and SAM 3.1",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run"
+  },
+  "author": "",
+  "license": "MIT",
+  "type": "module",
+  "devDependencies": {
+    "@types/node": "^26.6.6",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "typescript": "^5.9.3",
+    "vitest": "^5.0.5"
+  },
+  "dependencies": {
+    "@ai-sdk/openai-compatible": "^3.0.82",
+    "@meta-sam/parser": "^0.1.0",
+    "ai": "^7.0.159",
+    "next": "^15.5.28",
+    "openai": "^7.47.0",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1",
+    "zod": "^4.6.7"
+  },
+  "private": true
+}
