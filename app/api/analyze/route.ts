@@ -5,8 +5,8 @@ import { analyze } from "@/lib/pipeline";
 export const runtime = "nodejs";
 export const maxDuration = 60;
 
-const bodySchema = z.object({
-  imageDataUrl: z.string().regex(/^data:image\/(jpeg|png|webp);base64,/).max(6_000_000),
+export const bodySchema = z.object({
+  imageDataUrl: z.string().regex(/^data:image\/(jpeg|jpg|png|webp);base64,/).max(6_000_000),
   symptom: z.string().max(500).default(""),
   width: z.number().int().positive().max(4096),
   height: z.number().int().positive().max(4096),

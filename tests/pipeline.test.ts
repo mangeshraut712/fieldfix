@@ -1,4 +1,5 @@
 import { describe, expect, it, vi } from "vitest";
+import { bodySchema } from "@/app/api/analyze/route";
 import { getConfig } from "@/lib/config";
 import { analyze, sanitize } from "@/lib/pipeline";
 import { MOCK_DIAGNOSIS } from "@/lib/mock";
@@ -63,3 +64,27 @@ describe("sanitize and prompt", () => {
     expect(p).toContain("handle");
   });
 });
+
+describe("bodySchema", () => {
+  it("accepts jpeg, jpg, png, and webp data urls", () => {
+    for (const mime of ["jpeg", "jpg", "png", "webp"]) {
+      const res = bodySchema.safeParse({
+        imageDataUrl: `data:image/${mime};base64,AAAA`,
+        symptom: "test",
+        width: 100,
+        height: 100,
+      });
+      expect(res.success).toBe(true);
+    }
+  });
+  it("rejects unsupported mime types", () => {
+    const res = bodySchema.safeParse({
+      imageDataUrl: "data:image/gif;base64,AAAA",
+      symptom: "test",
+      width: 100,
+      height: 100,
+    });
+    expect(res.success).toBe(false);
+  });
+});
+
