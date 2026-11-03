@@ -1,16 +1,9 @@
-import { z } from "zod";
 import { getConfig } from "@/lib/config";
 import { analyze } from "@/lib/pipeline";
+import { bodySchema } from "./schema";
 
 export const runtime = "nodejs";
 export const maxDuration = 60;
-
-export const bodySchema = z.object({
-  imageDataUrl: z.string().regex(/^data:image\/(jpeg|jpg|png|webp);base64,/).max(6_000_000),
-  symptom: z.string().max(500).default(""),
-  width: z.number().int().positive().max(4096),
-  height: z.number().int().positive().max(4096),
-});
 
 export async function POST(req: Request) {
   const parsed = bodySchema.safeParse(await req.json().catch(() => null));

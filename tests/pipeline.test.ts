@@ -1,5 +1,5 @@
 import { describe, expect, it, vi } from "vitest";
-import { bodySchema } from "@/app/api/analyze/route";
+import { bodySchema } from "@/app/api/analyze/schema";
 import { getConfig } from "@/lib/config";
 import { analyze, sanitize } from "@/lib/pipeline";
 import { MOCK_DIAGNOSIS } from "@/lib/mock";
