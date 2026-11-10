@@ -29,19 +29,24 @@ export default function Home() {
   const [active, setActive] = useState<string | null>(null);
   const [serverMode, setServerMode] = useState<string>("");
   const fileRef = useRef<HTMLInputElement>(null);
+  const pickSeq = useRef(0);
 
   useEffect(() => {
     fetch("/api/analyze").then((r) => r.json()).then((j) => setServerMode(j.mode)).catch(() => {});
   }, []);
 
   async function pick(src: string) {
+    // Only the latest pick may update state; a slower earlier decode must not
+    // overwrite a newer photo or leave a stale error behind.
+    const seq = ++pickSeq.current;
     setResult(null);
     setError("");
     try {
-      setImage(await loadImage(src));
+      const loaded = await loadImage(src);
+      if (seq === pickSeq.current) setImage(loaded);
     } catch {
       // img.decode() rejects for formats the browser cannot draw (HEIC on most desktops, corrupt files).
-      setError("Could not read that photo. Try a JPEG, PNG or WebP image.");
+      if (seq === pickSeq.current) setError("Could not read that photo. Try a JPEG, PNG or WebP image.");
     } finally {
       if (src.startsWith("blob:")) URL.revokeObjectURL(src);
     }
