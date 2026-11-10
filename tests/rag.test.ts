@@ -160,6 +160,8 @@ describe("rag", () => {
     expect(stem("elongation")).toBe(stem("elongate"));
     expect(stem("elongation")).toBe("elongate");
     expect(stem("elongated")).toBe("elongate");
+    expect(stem("compressed")).toBe(stem("compress"));
+    expect(stem("compressed")).toBe("compress");
     expect(stem("adjustment")).toBe(stem("adjust"));
     expect(stem("adjustment")).toBe("adjust");
   });
