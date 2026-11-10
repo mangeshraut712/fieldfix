@@ -73,6 +73,10 @@ describe("rag", () => {
     expect(stem("shelves")).toBe(stem("shelf"));
     expect(stem("halves")).toBe(stem("half"));
     expect(stem("wolves")).toBe(stem("wolf"));
+    expect(stem("calves")).toBe(stem("calf"));
+    expect(stem("valves")).toBe(stem("valve"));
+    expect(stem("valves")).toBe("valve");
+    expect(stem("solves")).toBe(stem("solve"));
     expect(stem("waves")).toBe(stem("wave"));
     expect(stem("fives")).toBe(stem("five"));
     expect(stem("tomatoes")).toBe(stem("tomato"));
