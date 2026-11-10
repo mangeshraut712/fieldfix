@@ -157,6 +157,8 @@ describe("rag", () => {
     expect(stem("reassemble")).toBe(stem("assemble"));
     expect(stem("reassemble")).toBe("assemble");
     expect(stem("assembled")).toBe("assemble");
+    expect(stem("compressed")).toBe(stem("compress"));
+    expect(stem("compressed")).toBe("compress");
     expect(stem("adjustment")).toBe(stem("adjust"));
     expect(stem("adjustment")).toBe("adjust");
   });
