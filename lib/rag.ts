@@ -33,6 +33,8 @@ export function stem(t: string): string {
   if (t === "shifted") return "shift";
   // chain-wear: "apply one drop of lubricant per roller".
   if (t === "lubricant" || t === "lubrication") return "lubricate";
+  // faucet: "Reassemble in reverse order".
+  if (t === "reassemble" || t === "reassembled" || t === "assembling" || t === "assembled") return "assemble";
   // "Fixing" is the first word of the faucet manual title (counted twice in BM25).
   // The regular -ing rule leaves it alone because the remainder is short.
   if (t === "fixing") return "fix";
