@@ -61,6 +61,7 @@ export function tokenize(text: string): string[] {
     .toLowerCase()
     .replace(/[^a-z0-9\s-]/g, " ")
     .split(/\s+/)
+    .filter((t) => t.length > 1 && !STOP.has(t))
     .map(stem)
     .filter((t) => t.length > 1 && !STOP.has(t));
 }

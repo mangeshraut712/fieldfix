@@ -36,6 +36,9 @@ describe("rag", () => {
 
   it("tokenizes and strips stop words", () => {
     expect(tokenize("The chains are skipping!")).toEqual(["chain", "skip"]);
+    // "does" must be dropped before stemming; otherwise it becomes "doe" and escapes STOP.
+    expect(tokenize("does the chain skip")).toEqual(["chain", "skip"]);
+    expect(tokenize("does the chain skip")).toEqual(tokenize("do the chains skip"));
   });
 
   it("does not let a custom manuals dir replace the default cache", () => {
