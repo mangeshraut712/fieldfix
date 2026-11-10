@@ -47,7 +47,7 @@ describe("rag", () => {
     expect(tokenize("before taking anything apart")).toEqual(tokenize("before taking apart"));
     expect(tokenize("anything something nothing")).toEqual([]);
     // Chain-wear manual uses "0.5%" and "0.75%"; punctuation must not drop them.
-    expect(tokenize("at 0.5% elongation")).toEqual(["0.5", "elongation"]);
+    expect(tokenize("at 0.5% elongation")).toEqual(["0.5", "elongate"]);
     expect(tokenize("at 0.75% on 10 speed")).toEqual(["0.75", "10", "speed"]);
     expect(tokenize("0.5%")).toEqual(["0.5"]);
     expect(tokenize("0.75%")).toEqual(["0.75"]);
@@ -157,6 +157,9 @@ describe("rag", () => {
     expect(stem("reassemble")).toBe(stem("assemble"));
     expect(stem("reassemble")).toBe("assemble");
     expect(stem("assembled")).toBe("assemble");
+    expect(stem("elongation")).toBe(stem("elongate"));
+    expect(stem("elongation")).toBe("elongate");
+    expect(stem("elongated")).toBe("elongate");
     expect(stem("adjustment")).toBe(stem("adjust"));
     expect(stem("adjustment")).toBe("adjust");
   });
