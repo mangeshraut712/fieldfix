@@ -75,6 +75,14 @@ describe("rag", () => {
     expect(stem("wolves")).toBe(stem("wolf"));
     expect(stem("waves")).toBe(stem("wave"));
     expect(stem("fives")).toBe(stem("five"));
+    expect(stem("tomatoes")).toBe(stem("tomato"));
+    expect(stem("potatoes")).toBe(stem("potato"));
+    expect(stem("heroes")).toBe(stem("hero"));
+    expect(stem("echoes")).toBe(stem("echo"));
+    expect(stem("mangoes")).toBe(stem("mango"));
+    expect(stem("canoes")).toBe(stem("canoe"));
+    expect(stem("shoes")).toBe(stem("shoe"));
+    expect(stem("throes")).toBe(stem("throe"));
   });
 
   it("rejects a manual without front matter", () => {
