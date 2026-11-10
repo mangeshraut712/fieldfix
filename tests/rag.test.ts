@@ -120,6 +120,8 @@ describe("rag", () => {
     expect(stem("housing")).toBe(stem("house"));
     expect(stem("housing")).toBe("house");
     expect(stem("housings")).toBe(stem("house"));
+    expect(stem("taking")).toBe(stem("take"));
+    expect(stem("taking")).toBe("take");
   });
 
   it("rejects a manual without front matter", () => {
