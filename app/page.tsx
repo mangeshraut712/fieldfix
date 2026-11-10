@@ -111,7 +111,12 @@ export default function Home() {
               )}
             </div>
           )}
-          <input ref={fileRef} type="file" accept="image/*" capture="environment" hidden onChange={(e) => e.target.files?.[0] && pick(URL.createObjectURL(e.target.files[0]))} />
+          <input ref={fileRef} type="file" accept="image/*" capture="environment" hidden onChange={(e) => {
+              const file = e.target.files?.[0];
+              // Reset so choosing the same file again still fires onChange.
+              e.target.value = "";
+              if (file) pick(URL.createObjectURL(file));
+            }} />
 
           <textarea rows={2} placeholder="What is wrong? e.g. chain skips and won't shift to bigger gears" value={symptom} onChange={(e) => setSymptom(e.target.value)} style={{ marginTop: 12 }} />
           <div className="row">
