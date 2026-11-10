@@ -116,6 +116,22 @@ export function loadManuals(dir?: string): ManualDoc[] {
   return docs;
 }
 
+
+/** Pick the chunks that actually overlap the query, keeping document order. */
+export function excerptForQuery(chunks: string[], queryTerms: string[], n = 2): string {
+  const q = new Set(queryTerms);
+  const ranked = chunks
+    .map((chunk, index) => ({
+      chunk,
+      index,
+      score: tokenize(chunk).reduce((sum, token) => sum + (q.has(token) ? 1 : 0), 0),
+    }))
+    .sort((a, b) => b.score - a.score || a.index - b.index);
+  const hits = ranked.filter((row) => row.score > 0).slice(0, n);
+  const picked = (hits.length > 0 ? hits : ranked.slice(0, n)).sort((a, b) => a.index - b.index);
+  return picked.map((row) => row.chunk).join("\n");
+}
+
 // BM25 over whole documents (title counts twice), returning the top chunks of the best docs.
 export function retrieve(query: string, docs: ManualDoc[], k = 2): Source[] {
   const q = tokenize(query);
@@ -142,5 +158,5 @@ export function retrieve(query: string, docs: ManualDoc[], k = 2): Source[] {
     .filter((s) => s.score > 0)
     .sort((a, b) => b.score - a.score)
     .slice(0, k)
-    .map(({ d }) => ({ id: d.id, title: d.title, url: d.url, excerpt: d.chunks.join("\n") }));
+    .map(({ d }) => ({ id: d.id, title: d.title, url: d.url, excerpt: excerptForQuery(d.chunks, q) }));
 }
