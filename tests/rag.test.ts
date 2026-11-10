@@ -98,6 +98,11 @@ describe("rag", () => {
     expect(stem("biases")).toBe(stem("bias"));
     expect(stem("hoses")).toBe(stem("hose"));
     expect(stem("phases")).toBe(stem("phase"));
+    expect(stem("quizzes")).toBe(stem("quiz"));
+    expect(stem("quizzes")).toBe("quiz");
+    expect(stem("whizzes")).toBe(stem("whiz"));
+    expect(stem("fizzes")).toBe(stem("fizz"));
+    expect(stem("fizzes")).toBe("fizz");
   });
 
   it("rejects a manual without front matter", () => {
