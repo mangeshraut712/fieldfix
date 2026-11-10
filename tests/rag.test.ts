@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { loadManuals, parseManual, retrieve, tokenize } from "@/lib/rag";
+import { loadManuals, parseManual, retrieve, stem, tokenize } from "@/lib/rag";
 
 describe("rag", () => {
   const docs = loadManuals();
@@ -33,6 +33,15 @@ describe("rag", () => {
 
   it("tokenizes and strips stop words", () => {
     expect(tokenize("The chains are skipping!")).toEqual(["chain", "skipp"]);
+  });
+
+  it("stems singular and plural forms to the same token", () => {
+    expect(stem("brakes")).toBe(stem("brake"));
+    expect(stem("cables")).toBe(stem("cable"));
+    expect(stem("hoses")).toBe(stem("hose"));
+    expect(stem("switches")).toBe(stem("switch"));
+    expect(stem("boxes")).toBe(stem("box"));
+    expect(stem("glasses")).toBe(stem("glass"));
   });
 
   it("rejects a manual without front matter", () => {
