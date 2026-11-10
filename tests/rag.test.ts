@@ -180,6 +180,8 @@ describe("rag", () => {
     expect(stem("adjustment")).toBe("adjust");
     expect(stem("adjusted")).toBe(stem("adjust"));
     expect(stem("adjusted")).toBe("adjust");
+    expect(stem("cleaned")).toBe(stem("clean"));
+    expect(stem("cleaned")).toBe("clean");
   });
 
   it("excerpt includes only the matching chunks, in document order", () => {

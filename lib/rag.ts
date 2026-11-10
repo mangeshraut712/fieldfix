@@ -67,6 +67,8 @@ export function stem(t: string): string {
   // derailleur manual title: "Rear derailleur adjustment" (counted twice in BM25).
   if (t === "adjustment") return "adjust";
   if (t === "adjusted") return "adjust";
+  // chain-wear: "Clean the chain with degreaser".
+  if (t === "cleaned") return "clean";
   if (t.endsWith("ing") && t.length - 3 >= 4) {
     const s = t.slice(0, -3);
     // "skipping" / "skip", "running" / "run": drop the consonant doubled before -ing.
