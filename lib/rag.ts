@@ -31,6 +31,9 @@ export function stem(t: string): string {
   // chain-wear / faucet / derailleur: "worn chain", "worn cartridge",
   // "worn cable", versus titles and body text that say "wear".
   if (t === "worn") return "wear";
+  // washer-drain title is "Washing machine will not drain"; a "washer"
+  // query must meet "washing".
+  if (t === "washer" || t === "washers") return "wash";
   // "taking" / "take" in the faucet manual ("before taking anything apart").
   // The regular -ing rule leaves "taking" alone because the remainder is short.
   if (t === "taking") return "take";

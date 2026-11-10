@@ -41,7 +41,7 @@ describe("rag", () => {
     expect(tokenize("does the chain skip")).toEqual(tokenize("do the chains skip"));
     expect(tokenize("anti-static bag")).toEqual(tokenize("anti static bag"));
     expect(tokenize("single-handle faucet")).toEqual(["single", "handle", "faucet"]);
-    expect(tokenize("washer-drain-filter")).toEqual(["washer", "drain", "filter"]);
+    expect(tokenize("washer-drain-filter")).toEqual(["wash", "drain", "filter"]);
     expect(tokenize("o-ring")).toEqual(tokenize("o ring"));
     // Manuals contain "anything"; stemming it first yields "anyth" and pollutes BM25.
     expect(tokenize("before taking anything apart")).toEqual(tokenize("before taking apart"));
@@ -136,6 +136,9 @@ describe("rag", () => {
     expect(stem("worn")).toBe(stem("wear"));
     expect(stem("worn")).toBe("wear");
     expect(stem("wears")).toBe("wear");
+    expect(stem("washer")).toBe(stem("washing"));
+    expect(stem("washer")).toBe("wash");
+    expect(stem("washers")).toBe("wash");
     expect(stem("taking")).toBe(stem("take"));
     expect(stem("taking")).toBe("take");
     expect(stem("fixing")).toBe(stem("fix"));
