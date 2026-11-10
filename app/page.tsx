@@ -29,15 +29,27 @@ export default function Home() {
   const [active, setActive] = useState<string | null>(null);
   const [serverMode, setServerMode] = useState<string>("");
   const fileRef = useRef<HTMLInputElement>(null);
+  const pickSeq = useRef(0);
 
   useEffect(() => {
     fetch("/api/analyze").then((r) => r.json()).then((j) => setServerMode(j.mode)).catch(() => {});
   }, []);
 
   async function pick(src: string) {
+    // Only the latest pick may update state; a slower earlier decode must not
+    // overwrite a newer photo or leave a stale error behind.
+    const seq = ++pickSeq.current;
     setResult(null);
     setError("");
-    setImage(await loadImage(src));
+    try {
+      const loaded = await loadImage(src);
+      if (seq === pickSeq.current) setImage(loaded);
+    } catch {
+      // img.decode() rejects for formats the browser cannot draw (HEIC on most desktops, corrupt files).
+      if (seq === pickSeq.current) setError("Could not read that photo. Try a JPEG, PNG or WebP image.");
+    } finally {
+      if (src.startsWith("blob:")) URL.revokeObjectURL(src);
+    }
   }
 
   async function run() {
@@ -104,7 +116,12 @@ export default function Home() {
               )}
             </div>
           )}
-          <input ref={fileRef} type="file" accept="image/*" capture="environment" hidden onChange={(e) => e.target.files?.[0] && pick(URL.createObjectURL(e.target.files[0]))} />
+          <input ref={fileRef} type="file" accept="image/*" capture="environment" hidden onChange={(e) => {
+              const file = e.target.files?.[0];
+              // Reset so choosing the same file again still fires onChange.
+              e.target.value = "";
+              if (file) pick(URL.createObjectURL(file));
+            }} />
 
           <textarea rows={2} placeholder="What is wrong? e.g. chain skips and won't shift to bigger gears" value={symptom} onChange={(e) => setSymptom(e.target.value)} style={{ marginTop: 12 }} />
           <div className="row">
