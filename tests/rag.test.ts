@@ -39,6 +39,10 @@ describe("rag", () => {
     // "does" must be dropped before stemming; otherwise it becomes "doe" and escapes STOP.
     expect(tokenize("does the chain skip")).toEqual(["chain", "skip"]);
     expect(tokenize("does the chain skip")).toEqual(tokenize("do the chains skip"));
+    expect(tokenize("anti-static bag")).toEqual(tokenize("anti static bag"));
+    expect(tokenize("single-handle faucet")).toEqual(["single", "handle", "faucet"]);
+    expect(tokenize("washer-drain-filter")).toEqual(["washer", "drain", "filter"]);
+    expect(tokenize("o-ring")).toEqual(tokenize("o ring"));
   });
 
   it("does not let a custom manuals dir replace the default cache", () => {
