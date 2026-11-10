@@ -46,6 +46,9 @@ export function stem(t: string): string {
   // "buses"/"bus", "gases"/"gas", "atlases"/"atlas". A generic "drop -es when the
   // remainder ends in s" rule would also turn "hoses" into "hos".
   if (t === "buses" || t === "gases" || t === "atlases" || t === "aliases" || t === "biases") return t.slice(0, -2);
+  // "quizzes"/"quiz", "whizzes"/"whiz". The regular -zes rule would leave the
+  // doubled z ("quizz"). Leave short words like "fizzes"/"fizz" on that rule.
+  if (t.endsWith("izzes") && t.length >= 7) return t.slice(0, -3);
   if (/(ss|x|z|ch|sh)es$/.test(t)) return t.slice(0, -2);
   // "bus", "gas", "focus" and "chassis" are singular already.
   if (t.endsWith("s") && !/(ss|us|is|as)$/.test(t)) return t.slice(0, -1);
