@@ -1,3 +1,6 @@
+import fs from "node:fs";
+import os from "node:os";
+import path from "node:path";
 import { describe, expect, it } from "vitest";
 import { loadManuals, parseManual, retrieve, stem, tokenize } from "@/lib/rag";
 
@@ -33,6 +36,14 @@ describe("rag", () => {
 
   it("tokenizes and strips stop words", () => {
     expect(tokenize("The chains are skipping!")).toEqual(["chain", "skipp"]);
+  });
+
+  it("does not let a custom manuals dir replace the default cache", () => {
+    const dir = fs.mkdtempSync(path.join(os.tmpdir(), "manuals-"));
+    fs.writeFileSync(path.join(dir, "x.md"), "---\nid: only-one\ntitle: Only one\nurl: https://example.com\n---\nOne chunk.\n");
+    expect(loadManuals(dir).map((d) => d.id)).toEqual(["only-one"]);
+    expect(loadManuals().map((d) => d.id)).toEqual(docs.map((d) => d.id));
+    fs.rmSync(dir, { recursive: true, force: true });
   });
 
   it("stems singular and plural forms to the same token", () => {
