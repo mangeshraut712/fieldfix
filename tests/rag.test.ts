@@ -2,7 +2,7 @@ import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
 import { describe, expect, it } from "vitest";
-import { loadManuals, parseManual, retrieve, tokenize } from "@/lib/rag";
+import { loadManuals, parseManual, retrieve, stem, tokenize } from "@/lib/rag";
 
 describe("rag", () => {
   const docs = loadManuals();
@@ -44,6 +44,15 @@ describe("rag", () => {
     expect(loadManuals(dir).map((d) => d.id)).toEqual(["only-one"]);
     expect(loadManuals().map((d) => d.id)).toEqual(docs.map((d) => d.id));
     fs.rmSync(dir, { recursive: true, force: true });
+  });
+
+  it("stems singular and plural forms to the same token", () => {
+    expect(stem("brakes")).toBe(stem("brake"));
+    expect(stem("cables")).toBe(stem("cable"));
+    expect(stem("hoses")).toBe(stem("hose"));
+    expect(stem("switches")).toBe(stem("switch"));
+    expect(stem("boxes")).toBe(stem("box"));
+    expect(stem("glasses")).toBe(stem("glass"));
   });
 
   it("rejects a manual without front matter", () => {

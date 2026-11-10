@@ -13,12 +13,21 @@ const STOP = new Set(
   "a an the and or of to in on is it at for with by be as from this that if not do does are was can will your you into".split(" "),
 );
 
+// Light suffix stripping so singular and plural forms meet: "brakes" and "brake"
+// both become "brake", "switches" and "switch" both become "switch".
+export function stem(t: string): string {
+  if (t.endsWith("ing")) return t.slice(0, -3);
+  if (/(ss|x|z|ch|sh)es$/.test(t)) return t.slice(0, -2);
+  if (t.endsWith("s") && !t.endsWith("ss")) return t.slice(0, -1);
+  return t;
+}
+
 export function tokenize(text: string): string[] {
   return text
     .toLowerCase()
     .replace(/[^a-z0-9\s-]/g, " ")
     .split(/\s+/)
-    .map((t) => t.replace(/(ing|es|s)$/, ""))
+    .map(stem)
     .filter((t) => t.length > 1 && !STOP.has(t));
 }
 
