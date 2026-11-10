@@ -75,6 +75,8 @@ export function stem(t: string): string {
   if (t === "unscrewed") return "unscrew";
   // washer: "will not drain" / "confirm it drains" / "does not drain".
   if (t === "drained") return "drain";
+  // laptop-fan: "so it does not overspin and damage its bearing".
+  if (t === "damaged") return "damage";
   if (t.endsWith("ing") && t.length - 3 >= 4) {
     const s = t.slice(0, -3);
     // "skipping" / "skip", "running" / "run": drop the consonant doubled before -ing.
