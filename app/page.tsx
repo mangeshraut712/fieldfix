@@ -178,6 +178,9 @@ export default function Home() {
                   {result.sources.map((s) => (
                     <p key={s.id} id={`src-${s.id}`} className="small">
                       [{s.id}] <a href={s.url} target="_blank" rel="noreferrer">{s.title}</a>
+                      {s.excerpt ? (
+                        <span style={{ display: "block", whiteSpace: "pre-wrap", marginTop: 6 }}>{s.excerpt}</span>
+                      ) : null}
                     </p>
                   ))}
                 </>
