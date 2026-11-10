@@ -43,6 +43,9 @@ describe("rag", () => {
     expect(tokenize("single-handle faucet")).toEqual(["single", "handle", "faucet"]);
     expect(tokenize("washer-drain-filter")).toEqual(["washer", "drain", "filter"]);
     expect(tokenize("o-ring")).toEqual(tokenize("o ring"));
+    // Manuals contain "anything"; stemming it first yields "anyth" and pollutes BM25.
+    expect(tokenize("before taking anything apart")).toEqual(tokenize("before taking apart"));
+    expect(tokenize("anything something nothing")).toEqual([]);
   });
 
   it("does not let a custom manuals dir replace the default cache", () => {
