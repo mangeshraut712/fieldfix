@@ -144,7 +144,7 @@ export default function Home() {
               {result.diagnosis.tools.length > 0 && <p className="meta">Tools: {result.diagnosis.tools.join(", ")}</p>}
               <ol className="steps">
                 {result.diagnosis.steps.map((s, i) => (
-                  <li key={i} className={s.part && active === s.part ? "on" : ""} tabIndex={s.part ? 0 : undefined} onMouseEnter={() => setActive(s.part)} onMouseLeave={() => setActive(null)} onFocus={() => setActive(s.part)} onBlur={() => setActive(null)}>
+                  <li key={i} className={s.part && active === s.part ? "on" : ""} tabIndex={s.part ? 0 : undefined} onMouseEnter={() => setActive(s.part)} onMouseLeave={(e) => setActive(document.activeElement === e.currentTarget ? s.part : null)} onFocus={() => setActive(s.part)} onBlur={(e) => setActive(e.currentTarget.matches(":hover") ? s.part : null)}>
                     <strong>{s.title.replace(/^\d+\.\s*/, "")}</strong>
                     <div>{s.detail}</div>
                     <div className="meta">
