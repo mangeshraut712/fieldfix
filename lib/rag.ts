@@ -10,7 +10,7 @@ export interface ManualDoc {
 }
 
 const STOP = new Set(
-  "a an the and or of to in on is it at for with by be as from this that if not do does are was can will your you into".split(" "),
+  "a an the and or of to in on is it at for with by be as from this that if not do does are was can will your you into anything something nothing".split(" "),
 );
 
 // Light suffix stripping so singular and plural forms meet: "brakes" and "brake"
