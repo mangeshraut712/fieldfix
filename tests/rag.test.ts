@@ -90,6 +90,14 @@ describe("rag", () => {
     expect(stem("wharves")).toBe(stem("wharf"));
     expect(stem("hooves")).toBe(stem("hoof"));
     expect(stem("waves")).toBe("wave");
+    expect(stem("buses")).toBe(stem("bus"));
+    expect(stem("buses")).toBe("bus");
+    expect(stem("gases")).toBe(stem("gas"));
+    expect(stem("atlases")).toBe(stem("atlas"));
+    expect(stem("aliases")).toBe(stem("alias"));
+    expect(stem("biases")).toBe(stem("bias"));
+    expect(stem("hoses")).toBe(stem("hose"));
+    expect(stem("phases")).toBe(stem("phase"));
   });
 
   it("rejects a manual without front matter", () => {

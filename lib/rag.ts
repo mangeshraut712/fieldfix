@@ -43,6 +43,9 @@ export function stem(t: string): string {
   // "tomatoes" / "tomato", "heroes" / "hero". Leave "oe" singulars that only add -s
   // ("shoes" / "shoe", "canoes" / "canoe", "throes" / "throe").
   if (t.endsWith("oes") && t.length >= 6 && t !== "canoes" && t !== "throes") return t.slice(0, -2);
+  // "buses"/"bus", "gases"/"gas", "atlases"/"atlas". A generic "drop -es when the
+  // remainder ends in s" rule would also turn "hoses" into "hos".
+  if (t === "buses" || t === "gases" || t === "atlases" || t === "aliases" || t === "biases") return t.slice(0, -2);
   if (/(ss|x|z|ch|sh)es$/.test(t)) return t.slice(0, -2);
   // "bus", "gas", "focus" and "chassis" are singular already.
   if (t.endsWith("s") && !/(ss|us|is|as)$/.test(t)) return t.slice(0, -1);
