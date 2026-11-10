@@ -198,6 +198,8 @@ describe("rag", () => {
     expect(stem("openings")).toBe(stem("opening"));
     expect(stem("openings")).toBe("open");
     expect(stem("opening")).toBe("open");
+    expect(stem("plugged")).toBe(stem("plug"));
+    expect(stem("plugged")).toBe("plug");
   });
 
   it("excerpt includes only the matching chunks, in document order", () => {
