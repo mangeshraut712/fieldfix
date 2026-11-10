@@ -83,6 +83,13 @@ describe("rag", () => {
     expect(stem("canoes")).toBe(stem("canoe"));
     expect(stem("shoes")).toBe(stem("shoe"));
     expect(stem("throes")).toBe(stem("throe"));
+    expect(stem("thieves")).toBe(stem("thief"));
+    expect(stem("thieves")).toBe("thief");
+    expect(stem("loaves")).toBe(stem("loaf"));
+    expect(stem("scarves")).toBe(stem("scarf"));
+    expect(stem("wharves")).toBe(stem("wharf"));
+    expect(stem("hooves")).toBe(stem("hoof"));
+    expect(stem("waves")).toBe("wave");
   });
 
   it("rejects a manual without front matter", () => {

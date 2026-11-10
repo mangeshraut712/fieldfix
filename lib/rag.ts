@@ -26,6 +26,14 @@ export function stem(t: string): string {
     }
     return s;
   }
+  // "thieves" / "thief". The -ives rule below would otherwise yield "thife".
+  if (t === "thieves") return "thief";
+  // "loaves" / "loaf". Leave "waves" / "wave" to the regular -s rule.
+  if (t.endsWith("oaves") && t.length >= 6) return `${t.slice(0, -3)}f`;
+  // "scarves" / "scarf", "wharves" / "wharf".
+  if (t.endsWith("arves") && t.length >= 7) return `${t.slice(0, -3)}f`;
+  // "hooves" / "hoof".
+  if (t.endsWith("ooves") && t.length >= 6) return `${t.slice(0, -3)}f`;
   // "knives" / "knife". Leave short words like "fives" to the regular -s rule.
   if (t.endsWith("ives") && t.length >= 6) return `${t.slice(0, -4)}ife`;
   // "shelves" / "shelf", "wolves" / "wolf", "halves" / "half".
