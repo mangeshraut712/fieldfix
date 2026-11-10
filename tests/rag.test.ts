@@ -131,6 +131,8 @@ describe("rag", () => {
     expect(stem("rattling")).toBe(stem("rattle"));
     expect(stem("rattling")).toBe("rattle");
     expect(stem("rattles")).toBe("rattle");
+    expect(stem("slowly")).toBe(stem("slow"));
+    expect(stem("slowly")).toBe("slow");
     expect(stem("taking")).toBe(stem("take"));
     expect(stem("taking")).toBe("take");
     expect(stem("fixing")).toBe(stem("fix"));

@@ -26,6 +26,8 @@ export function stem(t: string): string {
   // laptop-fan: "A fan that grinds, rattles, or never spins".
   // The regular -ing rule yields "rattl", which cannot meet "rattle".
   if (t === "rattling") return "rattle";
+  // derailleur: "slow to climb to larger cogs" / "slow to drop".
+  if (t === "slowly") return "slow";
   // "taking" / "take" in the faucet manual ("before taking anything apart").
   // The regular -ing rule leaves "taking" alone because the remainder is short.
   if (t === "taking") return "take";
