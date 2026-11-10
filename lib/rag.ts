@@ -27,6 +27,8 @@ export function stem(t: string): string {
   if (t === "removing" || t === "removed") return "remove";
   // chain-wear: "Measure with a chain checker".
   if (t === "measured" || t === "measurement") return "measure";
+  // chain-wear / derailleur: "skips under load", "skipping that cable tension cannot fix".
+  if (t === "skipped") return "skip";
   // "Fixing" is the first word of the faucet manual title (counted twice in BM25).
   // The regular -ing rule leaves it alone because the remainder is short.
   if (t === "fixing") return "fix";
