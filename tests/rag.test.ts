@@ -58,6 +58,12 @@ describe("rag", () => {
     expect(stem("ring")).toBe("ring");
     expect(stem("bus")).toBe("bus");
     expect(stem("gas")).toBe("gas");
+    expect(stem("batteries")).toBe(stem("battery"));
+    expect(stem("batteries")).toBe("battery");
+    expect(stem("accessories")).toBe(stem("accessory"));
+    expect(stem("cities")).toBe(stem("city"));
+    expect(stem("policies")).toBe(stem("policy"));
+    expect(stem("ties")).not.toBe("ty");
   });
 
   it("rejects a manual without front matter", () => {

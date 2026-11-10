@@ -18,6 +18,8 @@ const STOP = new Set(
 export function stem(t: string): string {
   // Leave short words alone so "ring", "bring" and "string" keep their stem.
   if (t.endsWith("ing") && t.length - 3 >= 4) return t.slice(0, -3);
+  // "batteries" / "battery", "accessories" / "accessory". Leave short words like "pies" alone.
+  if (t.endsWith("ies") && t.length - 3 >= 3) return `${t.slice(0, -3)}y`;
   if (/(ss|x|z|ch|sh)es$/.test(t)) return t.slice(0, -2);
   // "bus", "gas", "focus" and "chassis" are singular already.
   if (t.endsWith("s") && !/(ss|us|is|as)$/.test(t)) return t.slice(0, -1);
