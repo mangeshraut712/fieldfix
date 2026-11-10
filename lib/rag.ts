@@ -83,6 +83,8 @@ export function stem(t: string): string {
   if (t === "openings") return "open";
   // faucet: "Plug the drain so small parts are not lost".
   if (t === "plugged") return "plug";
+  // chain-wear: "Rust or stiff links should be freed or the chain replaced".
+  if (t === "rusted") return "rust";
   if (t.endsWith("ing") && t.length - 3 >= 4) {
     const s = t.slice(0, -3);
     // "skipping" / "skip", "running" / "run": drop the consonant doubled before -ing.
