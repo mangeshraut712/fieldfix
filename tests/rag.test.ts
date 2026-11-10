@@ -178,6 +178,8 @@ describe("rag", () => {
     expect(stem("compressed")).toBe("compress");
     expect(stem("adjustment")).toBe(stem("adjust"));
     expect(stem("adjustment")).toBe("adjust");
+    expect(stem("adjusted")).toBe(stem("adjust"));
+    expect(stem("adjusted")).toBe("adjust");
   });
 
   it("excerpt includes only the matching chunks, in document order", () => {
