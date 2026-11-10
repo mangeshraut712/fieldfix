@@ -32,6 +32,9 @@ export function stem(t: string): string {
   if (t.endsWith("lves") && t.length >= 6) return `${t.slice(0, -3)}f`;
   // "batteries" / "battery", "accessories" / "accessory". Leave short words like "pies" alone.
   if (t.endsWith("ies") && t.length - 3 >= 3) return `${t.slice(0, -3)}y`;
+  // "tomatoes" / "tomato", "heroes" / "hero". Leave "oe" singulars that only add -s
+  // ("shoes" / "shoe", "canoes" / "canoe", "throes" / "throe").
+  if (t.endsWith("oes") && t.length >= 6 && t !== "canoes" && t !== "throes") return t.slice(0, -2);
   if (/(ss|x|z|ch|sh)es$/.test(t)) return t.slice(0, -2);
   // "bus", "gas", "focus" and "chassis" are singular already.
   if (t.endsWith("s") && !/(ss|us|is|as)$/.test(t)) return t.slice(0, -1);
