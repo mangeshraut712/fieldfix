@@ -31,8 +31,9 @@ export function stem(t: string): string {
   if (t === "replaced") return "replace";
   if (t === "coated") return "coat";
   if (t === "kinked") return "kink";
-  // laptop-fan: "needs replacement" should meet a "replace the fan" query.
-  if (t === "replacement") return "replace";
+  // laptop-fan: "needs replacement" / "can be replaced" should meet a
+  // "replacing the fan" or "replace the fan" query.
+  if (t === "replacement" || t === "replacing") return "replace";
   // derailleur manual title: "Rear derailleur adjustment" (counted twice in BM25).
   if (t === "adjustment") return "adjust";
   if (t.endsWith("ing") && t.length - 3 >= 4) {
