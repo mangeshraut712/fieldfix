@@ -16,9 +16,11 @@ const STOP = new Set(
 // Light suffix stripping so singular and plural forms meet: "brakes" and "brake"
 // both become "brake", "switches" and "switch" both become "switch".
 export function stem(t: string): string {
-  if (t.endsWith("ing")) return t.slice(0, -3);
+  // Leave short words alone so "ring", "bring" and "string" keep their stem.
+  if (t.endsWith("ing") && t.length - 3 >= 4) return t.slice(0, -3);
   if (/(ss|x|z|ch|sh)es$/.test(t)) return t.slice(0, -2);
-  if (t.endsWith("s") && !t.endsWith("ss")) return t.slice(0, -1);
+  // "bus", "gas", "focus" and "chassis" are singular already.
+  if (t.endsWith("s") && !/(ss|us|is|as)$/.test(t)) return t.slice(0, -1);
   return t;
 }
 
