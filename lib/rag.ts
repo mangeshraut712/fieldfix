@@ -68,7 +68,11 @@ export function stem(t: string): string {
 export function tokenize(text: string): string[] {
   return text
     .toLowerCase()
-    .replace(/[^a-z0-9\s]/g, " ")
+    // Keep decimal points between digits so "0.5%" and "0.75%" stay as numbers
+    // instead of being dropped or becoming "75".
+    .replace(/(\d)\.(\d)/g, "$1\u0000$2")
+    .replace(/[^a-z0-9\s\u0000]/g, " ")
+    .replace(/\u0000/g, ".")
     .split(/\s+/)
     .filter((t) => t.length > 1 && !STOP.has(t))
     .map(stem)
