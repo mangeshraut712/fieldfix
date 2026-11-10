@@ -78,6 +78,9 @@ export function stem(t: string): string {
   if (t === "drained") return "drain";
   // laptop-fan: "so it does not overspin and damage its bearing".
   if (t === "damaged") return "damage";
+  // washer: "the filter and the opening". "openings" only drops -s, so it
+  // cannot meet "opening", which the regular -ing rule stems to "open".
+  if (t === "openings") return "open";
   if (t.endsWith("ing") && t.length - 3 >= 4) {
     const s = t.slice(0, -3);
     // "skipping" / "skip", "running" / "run": drop the consonant doubled before -ing.
