@@ -36,8 +36,9 @@ export function stem(t: string): string {
   if (t.endsWith("ooves") && t.length >= 6) return `${t.slice(0, -3)}f`;
   // "knives" / "knife". Leave short words like "fives" to the regular -s rule.
   if (t.endsWith("ives") && t.length >= 6) return `${t.slice(0, -4)}ife`;
-  // "shelves" / "shelf", "wolves" / "wolf", "halves" / "half".
-  if (t.endsWith("lves") && t.length >= 6) return `${t.slice(0, -3)}f`;
+  // "shelves" / "shelf", "wolves" / "wolf", "halves" / "half", "calves" / "calf".
+  // Leave "valves" / "valve" and "solves" / "solve" on the regular -s rule.
+  if (t === "shelves" || t === "wolves" || t === "halves" || t === "calves") return `${t.slice(0, -3)}f`;
   // "batteries" / "battery", "accessories" / "accessory". Leave short words like "pies" alone.
   if (t.endsWith("ies") && t.length - 3 >= 3) return `${t.slice(0, -3)}y`;
   // "tomatoes" / "tomato", "heroes" / "hero". Leave "oe" singulars that only add -s
