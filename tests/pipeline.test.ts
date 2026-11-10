@@ -1,5 +1,5 @@
 import { describe, expect, it, vi } from "vitest";
-import { bodySchema } from "@/app/api/analyze/schema";
+import { bodySchema, describeBodyError } from "@/app/api/analyze/schema";
 import { getConfig } from "@/lib/config";
 import { analyze, sanitize } from "@/lib/pipeline";
 import { MOCK_DIAGNOSIS } from "@/lib/mock";
@@ -106,5 +106,44 @@ describe("bodySchema", () => {
     });
     expect(res.success).toBe(false);
   });
-});
 
+  it("does not blame the image when the symptom is too long", () => {
+    const res = bodySchema.safeParse({
+      imageDataUrl: "data:image/png;base64,AAAA",
+      symptom: "x".repeat(501),
+      width: 100,
+      height: 100,
+    });
+    expect(res.success).toBe(false);
+    if (!res.success) {
+      expect(describeBodyError(res.error)).toBe("Keep the symptom description under 500 characters.");
+      expect(describeBodyError(res.error)).not.toMatch(/4 MB/);
+    }
+  });
+
+  it("does not blame the image when the dimensions are invalid", () => {
+    const res = bodySchema.safeParse({
+      imageDataUrl: "data:image/png;base64,AAAA",
+      symptom: "leak",
+      width: 0,
+      height: 100,
+    });
+    expect(res.success).toBe(false);
+    if (!res.success) {
+      expect(describeBodyError(res.error)).toBe("Width and height must be positive integers up to 4096.");
+    }
+  });
+
+  it("still mentions the size limit only when the data URL is too large", () => {
+    const res = bodySchema.safeParse({
+      imageDataUrl: `data:image/png;base64,${"A".repeat(6_000_000)}`,
+      symptom: "leak",
+      width: 100,
+      height: 100,
+    });
+    expect(res.success).toBe(false);
+    if (!res.success) {
+      expect(describeBodyError(res.error)).toBe("Send a JPEG, PNG or WebP image under about 4 MB.");
+    }
+  });
+});

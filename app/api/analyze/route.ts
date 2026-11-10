@@ -1,13 +1,13 @@
 import { getConfig } from "@/lib/config";
 import { analyze } from "@/lib/pipeline";
-import { bodySchema } from "./schema";
+import { bodySchema, describeBodyError } from "./schema";
 
 export const runtime = "nodejs";
 export const maxDuration = 60;
 
 export async function POST(req: Request) {
   const parsed = bodySchema.safeParse(await req.json().catch(() => null));
-  if (!parsed.success) return Response.json({ error: "Send a JPEG, PNG or WebP image under about 4 MB." }, { status: 400 });
+  if (!parsed.success) return Response.json({ error: describeBodyError(parsed.error) }, { status: 400 });
   try {
     return Response.json(await analyze(getConfig(), parsed.data));
   } catch (err) {
