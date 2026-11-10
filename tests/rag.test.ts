@@ -202,6 +202,8 @@ describe("rag", () => {
     expect(stem("plugged")).toBe("plug");
     expect(stem("rusted")).toBe(stem("rust"));
     expect(stem("rusted")).toBe("rust");
+    expect(stem("greased")).toBe(stem("grease"));
+    expect(stem("greased")).toBe("grease");
   });
 
   it("excerpt includes only the matching chunks, in document order", () => {
