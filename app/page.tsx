@@ -166,7 +166,7 @@ export default function Home() {
                 </>
               )}
               <p className="meta">
-                Model: {result.model} · Segmentation: {result.segmentation === "mock" ? "mock boxes (no SAM call)" : "SAM 3.1"}
+                Model: {result.model} · Segmentation: {result.segmentation === "mock" ? "mock boxes (no SAM call)" : result.segmentation}
                 {Object.keys(result.timingsMs).length > 0 && ` · ${Object.entries(result.timingsMs).map(([k, v]) => `${k} ${(v / 1000).toFixed(1)}s`).join(", ")}`}
               </p>
             </>

@@ -49,6 +49,17 @@ describe("pipeline", () => {
     expect(r.diagnosis.steps[0].part).toBe("chain");
     expect(r.diagnosis.steps[0].sourceId).toBeNull();
     expect(Object.keys(r.timingsMs).sort()).toEqual(["diagnose", "identify", "segment"]);
+    expect(r.segmentation).toBe("sam-3.1");
+  });
+
+  it("reports the configured SAM model in live mode", async () => {
+    const deps = {
+      identify: vi.fn().mockResolvedValue({ object: "bike", parts: ["chain"] }),
+      segmentParts: vi.fn().mockResolvedValue([]),
+      diagnose: vi.fn().mockResolvedValue(MOCK_DIAGNOSIS),
+    };
+    const r = await analyze(getConfig({ META_API_KEY: "k", META_SAM_MODEL: "sam-3.2" }), input, deps);
+    expect(r.segmentation).toBe("sam-3.2");
   });
 });
 

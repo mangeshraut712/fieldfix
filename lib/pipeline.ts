@@ -66,7 +66,7 @@ export async function analyze(cfg: MetaConfig, input: AnalyzeInput, deps: Deps =
   return {
     mode: "live",
     model: cfg.model,
-    segmentation: "sam-3.1",
+    segmentation: cfg.samModel,
     segments,
     diagnosis: sanitize(diagnosis, id.parts, sources.map((s) => s.id)),
     sources,
