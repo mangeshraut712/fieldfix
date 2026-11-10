@@ -47,6 +47,7 @@ export function stem(t: string): string {
   if (t === "shifted") return "shift";
   // chain-wear: "apply one drop of lubricant per roller".
   if (t === "lubricant" || t === "lubrication") return "lubricate";
+  if (t === "lubricated") return "lubricate";
   // faucet: "Reassemble in reverse order".
   if (t === "reassemble" || t === "reassembled" || t === "assembling" || t === "assembled") return "assemble";
   // chain-wear: "Chains elongate as pins and rollers wear."
