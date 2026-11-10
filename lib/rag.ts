@@ -26,6 +26,11 @@ export function stem(t: string): string {
   // "Fixing" is the first word of the faucet manual title (counted twice in BM25).
   // The regular -ing rule leaves it alone because the remainder is short.
   if (t === "fixing") return "fix";
+  // Past participles in the bundled manuals: "the chain replaced",
+  // "O-rings coated with ... grease", "the drain hose is not kinked".
+  if (t === "replaced") return "replace";
+  if (t === "coated") return "coat";
+  if (t === "kinked") return "kink";
   if (t.endsWith("ing") && t.length - 3 >= 4) {
     const s = t.slice(0, -3);
     // "skipping" / "skip", "running" / "run": drop the consonant doubled before -ing.
