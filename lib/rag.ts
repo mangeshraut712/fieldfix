@@ -20,6 +20,9 @@ export function stem(t: string): string {
   // "housing" / "house" (cable housing in the derailleur manual). The regular
   // -ing rule would otherwise yield "hous".
   if (t === "housing" || t === "housings") return "house";
+  // laptop-fan: "damage its bearing". The regular -ing rule yields "bear",
+  // so "bearings" (which only drops -s) cannot meet "bearing".
+  if (t === "bearing") return "bearing";
   // "taking" / "take" in the faucet manual ("before taking anything apart").
   // The regular -ing rule leaves "taking" alone because the remainder is short.
   if (t === "taking") return "take";

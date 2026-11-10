@@ -125,6 +125,9 @@ describe("rag", () => {
     expect(stem("housing")).toBe(stem("house"));
     expect(stem("housing")).toBe("house");
     expect(stem("housings")).toBe(stem("house"));
+    expect(stem("bearing")).toBe(stem("bearings"));
+    expect(stem("bearing")).toBe("bearing");
+    expect(stem("bearings")).toBe("bearing");
     expect(stem("taking")).toBe(stem("take"));
     expect(stem("taking")).toBe("take");
     expect(stem("fixing")).toBe(stem("fix"));
