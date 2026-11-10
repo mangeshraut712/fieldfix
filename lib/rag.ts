@@ -25,6 +25,8 @@ export function stem(t: string): string {
   if (t === "taking") return "take";
   // faucet: "Remove the handle cap". The regular -ing rule yields "remov".
   if (t === "removing" || t === "removed") return "remove";
+  // chain-wear: "Measure with a chain checker".
+  if (t === "measured" || t === "measurement") return "measure";
   // "Fixing" is the first word of the faucet manual title (counted twice in BM25).
   // The regular -ing rule leaves it alone because the remainder is short.
   if (t === "fixing") return "fix";
