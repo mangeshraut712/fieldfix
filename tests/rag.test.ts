@@ -148,6 +148,9 @@ describe("rag", () => {
     expect(stem("skipped")).toBe(stem("skip"));
     expect(stem("skipped")).toBe("skip");
     expect(stem("skipping")).toBe("skip");
+    expect(stem("shifted")).toBe(stem("shift"));
+    expect(stem("shifted")).toBe("shift");
+    expect(stem("shifting")).toBe("shift");
     expect(stem("adjustment")).toBe(stem("adjust"));
     expect(stem("adjustment")).toBe("adjust");
   });
