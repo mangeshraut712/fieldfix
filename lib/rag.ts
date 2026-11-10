@@ -36,14 +36,17 @@ export function parseManual(raw: string): ManualDoc {
 }
 
 let cache: ManualDoc[] | null = null;
-export function loadManuals(dir = path.join(process.cwd(), "data", "manuals")): ManualDoc[] {
-  if (cache && dir === path.join(process.cwd(), "data", "manuals")) return cache;
+export function loadManuals(dir?: string): ManualDoc[] {
+  const defaultDir = path.join(process.cwd(), "data", "manuals");
+  const isDefault = dir === undefined || path.resolve(dir) === defaultDir;
+  if (isDefault && cache) return cache;
   const docs = fs
-    .readdirSync(dir)
+    .readdirSync(dir ?? defaultDir)
     .filter((f) => f.endsWith(".md"))
     .sort()
-    .map((f) => parseManual(fs.readFileSync(path.join(dir, f), "utf8")));
-  cache = docs;
+    .map((f) => parseManual(fs.readFileSync(path.join(dir ?? defaultDir, f), "utf8")));
+  // Only the default directory is cached; a custom dir must not replace it.
+  if (isDefault) cache = docs;
   return docs;
 }
 
