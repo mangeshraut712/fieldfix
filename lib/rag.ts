@@ -20,6 +20,9 @@ export function stem(t: string): string {
   // "housing" / "house" (cable housing in the derailleur manual). The regular
   // -ing rule would otherwise yield "hous".
   if (t === "housing" || t === "housings") return "house";
+  // "taking" / "take" in the faucet manual ("before taking anything apart").
+  // The regular -ing rule leaves "taking" alone because the remainder is short.
+  if (t === "taking") return "take";
   if (t.endsWith("ing") && t.length - 3 >= 4) {
     const s = t.slice(0, -3);
     // "skipping" / "skip", "running" / "run": drop the consonant doubled before -ing.
