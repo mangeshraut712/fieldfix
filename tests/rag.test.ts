@@ -128,6 +128,9 @@ describe("rag", () => {
     expect(stem("bearing")).toBe(stem("bearings"));
     expect(stem("bearing")).toBe("bearing");
     expect(stem("bearings")).toBe("bearing");
+    expect(stem("rattling")).toBe(stem("rattle"));
+    expect(stem("rattling")).toBe("rattle");
+    expect(stem("rattles")).toBe("rattle");
     expect(stem("taking")).toBe(stem("take"));
     expect(stem("taking")).toBe("take");
     expect(stem("fixing")).toBe(stem("fix"));
