@@ -20,14 +20,21 @@ export interface Deps {
 
 const realDeps: Deps = { identify, segmentParts, diagnose };
 
+/** Map a model-written label back to the canonical one, ignoring case and surrounding spaces. */
+function canonical(value: string | null, known: string[]): string | null {
+  if (!value) return null;
+  const key = value.trim().toLowerCase();
+  return known.find((k) => k.trim().toLowerCase() === key) ?? null;
+}
+
 /** Drop citations and part links the model made up. */
 export function sanitize(d: Diagnosis, partLabels: string[], sourceIds: string[]): Diagnosis {
   return {
     ...d,
     steps: d.steps.map((s) => ({
       ...s,
-      part: s.part && partLabels.includes(s.part) ? s.part : null,
-      sourceId: s.sourceId && sourceIds.includes(s.sourceId) ? s.sourceId : null,
+      part: canonical(s.part, partLabels),
+      sourceId: canonical(s.sourceId, sourceIds),
     })),
   };
 }
