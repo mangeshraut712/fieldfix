@@ -137,6 +137,10 @@ describe("rag", () => {
     expect(stem("replacement")).toBe("replace");
     expect(stem("replacing")).toBe(stem("replace"));
     expect(stem("replacing")).toBe("replace");
+    expect(stem("removing")).toBe(stem("remove"));
+    expect(stem("removing")).toBe("remove");
+    expect(stem("removed")).toBe(stem("remove"));
+    expect(stem("removed")).toBe("remove");
     expect(stem("adjustment")).toBe(stem("adjust"));
     expect(stem("adjustment")).toBe("adjust");
   });
