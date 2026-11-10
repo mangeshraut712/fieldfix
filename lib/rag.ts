@@ -23,6 +23,9 @@ export function stem(t: string): string {
   // "taking" / "take" in the faucet manual ("before taking anything apart").
   // The regular -ing rule leaves "taking" alone because the remainder is short.
   if (t === "taking") return "take";
+  // "Fixing" is the first word of the faucet manual title (counted twice in BM25).
+  // The regular -ing rule leaves it alone because the remainder is short.
+  if (t === "fixing") return "fix";
   if (t.endsWith("ing") && t.length - 3 >= 4) {
     const s = t.slice(0, -3);
     // "skipping" / "skip", "running" / "run": drop the consonant doubled before -ing.
