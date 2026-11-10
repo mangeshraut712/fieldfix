@@ -69,6 +69,15 @@ describe("sanitize and prompt", () => {
     expect(d.steps.filter((s) => s.part).every((s) => s.part === "chain")).toBe(true);
     expect(d.steps.filter((s) => s.sourceId).every((s) => s.sourceId === "park-chain-wear")).toBe(true);
   });
+  it("keeps links the model wrote with different case or spacing, using the canonical label", () => {
+    const d = sanitize(
+      { ...MOCK_DIAGNOSIS, steps: [{ title: "t", detail: "d", part: " Chain ", sourceId: "Park-Chain-Wear" }] },
+      ["chain"],
+      ["park-chain-wear"],
+    );
+    expect(d.steps[0].part).toBe("chain");
+    expect(d.steps[0].sourceId).toBe("park-chain-wear");
+  });
   it("puts excerpt ids in the prompt", () => {
     const p = buildDiagnosisPrompt("drip", ["handle"], [{ id: "faucet-cartridge", title: "T", url: "u", excerpt: "E" }]);
     expect(p).toContain("[faucet-cartridge]");
