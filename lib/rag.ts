@@ -33,6 +33,8 @@ export function stem(t: string): string {
   if (t === "kinked") return "kink";
   // laptop-fan: "needs replacement" should meet a "replace the fan" query.
   if (t === "replacement") return "replace";
+  // derailleur manual title: "Rear derailleur adjustment" (counted twice in BM25).
+  if (t === "adjustment") return "adjust";
   if (t.endsWith("ing") && t.length - 3 >= 4) {
     const s = t.slice(0, -3);
     // "skipping" / "skip", "running" / "run": drop the consonant doubled before -ing.
