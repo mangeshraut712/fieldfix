@@ -28,6 +28,9 @@ export function stem(t: string): string {
   if (t === "rattling") return "rattle";
   // derailleur: "slow to climb to larger cogs" / "slow to drop".
   if (t === "slowly") return "slow";
+  // chain-wear / faucet / derailleur: "worn chain", "worn cartridge",
+  // "worn cable", versus titles and body text that say "wear".
+  if (t === "worn") return "wear";
   // "taking" / "take" in the faucet manual ("before taking anything apart").
   // The regular -ing rule leaves "taking" alone because the remainder is short.
   if (t === "taking") return "take";
