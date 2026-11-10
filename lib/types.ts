@@ -49,7 +49,8 @@ export interface Source {
 export interface AnalyzeResult {
   mode: "live" | "mock";
   model: string;
-  segmentation: "sam-3.1" | "mock";
+  /** Segmentation model id used for the live call (cfg.samModel), or "mock". */
+  segmentation: string;
   segments: Segment[];
   diagnosis: Diagnosis;
   sources: Source[];
