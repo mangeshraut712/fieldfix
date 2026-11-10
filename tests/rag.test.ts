@@ -135,6 +135,8 @@ describe("rag", () => {
     expect(stem("kinked")).toBe(stem("kink"));
     expect(stem("replacement")).toBe(stem("replace"));
     expect(stem("replacement")).toBe("replace");
+    expect(stem("adjustment")).toBe(stem("adjust"));
+    expect(stem("adjustment")).toBe("adjust");
   });
 
   it("rejects a manual without front matter", () => {
