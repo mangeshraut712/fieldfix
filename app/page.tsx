@@ -37,7 +37,14 @@ export default function Home() {
   async function pick(src: string) {
     setResult(null);
     setError("");
-    setImage(await loadImage(src));
+    try {
+      setImage(await loadImage(src));
+    } catch {
+      // img.decode() rejects for formats the browser cannot draw (HEIC on most desktops, corrupt files).
+      setError("Could not read that photo. Try a JPEG, PNG or WebP image.");
+    } finally {
+      if (src.startsWith("blob:")) URL.revokeObjectURL(src);
+    }
   }
 
   async function run() {
