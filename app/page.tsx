@@ -75,10 +75,10 @@ export default function Home() {
       <div className="grid">
         <section className="panel">
           {!image ? (
-            <div className="drop" onClick={() => fileRef.current?.click()}>
+            <button type="button" className="drop" onClick={() => fileRef.current?.click()}>
               Tap to take or upload a photo
-              <div className="small">JPEG, PNG or WebP. Resized to 1024 px in your browser before upload.</div>
-            </div>
+              <span className="small">JPEG, PNG or WebP. Resized to 1024 px in your browser before upload.</span>
+            </button>
           ) : (
             <div className="stage">
               {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -106,7 +106,7 @@ export default function Home() {
           )}
           <input ref={fileRef} type="file" accept="image/*" capture="environment" hidden onChange={(e) => e.target.files?.[0] && pick(URL.createObjectURL(e.target.files[0]))} />
 
-          <textarea rows={2} placeholder="What is wrong? e.g. chain skips and won't shift to bigger gears" value={symptom} onChange={(e) => setSymptom(e.target.value)} style={{ marginTop: 12 }} />
+          <textarea rows={2} aria-label="What is wrong" placeholder="What is wrong? e.g. chain skips and won't shift to bigger gears" value={symptom} onChange={(e) => setSymptom(e.target.value)} style={{ marginTop: 12 }} />
           <div className="row">
             <button onClick={run} disabled={!image || busy}>{busy ? "Analyzing…" : "Diagnose"}</button>
             <button className="ghost" onClick={() => fileRef.current?.click()}>New photo</button>
@@ -144,7 +144,7 @@ export default function Home() {
               {result.diagnosis.tools.length > 0 && <p className="meta">Tools: {result.diagnosis.tools.join(", ")}</p>}
               <ol className="steps">
                 {result.diagnosis.steps.map((s, i) => (
-                  <li key={i} className={s.part && active === s.part ? "on" : ""} onMouseEnter={() => setActive(s.part)} onMouseLeave={() => setActive(null)}>
+                  <li key={i} className={s.part && active === s.part ? "on" : ""} tabIndex={s.part ? 0 : undefined} onMouseEnter={() => setActive(s.part)} onMouseLeave={() => setActive(null)} onFocus={() => setActive(s.part)} onBlur={() => setActive(null)}>
                     <strong>{s.title.replace(/^\d+\.\s*/, "")}</strong>
                     <div>{s.detail}</div>
                     <div className="meta">
