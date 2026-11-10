@@ -154,6 +154,9 @@ describe("rag", () => {
     expect(stem("lubricant")).toBe(stem("lubricate"));
     expect(stem("lubricant")).toBe("lubricate");
     expect(stem("lubrication")).toBe("lubricate");
+    expect(stem("reassemble")).toBe(stem("assemble"));
+    expect(stem("reassemble")).toBe("assemble");
+    expect(stem("assembled")).toBe("assemble");
     expect(stem("adjustment")).toBe(stem("adjust"));
     expect(stem("adjustment")).toBe("adjust");
   });
