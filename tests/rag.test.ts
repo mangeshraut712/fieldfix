@@ -182,6 +182,8 @@ describe("rag", () => {
     expect(stem("adjusted")).toBe("adjust");
     expect(stem("cleaned")).toBe(stem("clean"));
     expect(stem("cleaned")).toBe("clean");
+    expect(stem("unplugged")).toBe(stem("unplug"));
+    expect(stem("unplugged")).toBe("unplug");
   });
 
   it("excerpt includes only the matching chunks, in document order", () => {
