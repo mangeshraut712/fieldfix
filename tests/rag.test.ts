@@ -2,7 +2,7 @@ import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
 import { describe, expect, it } from "vitest";
-import { loadManuals, parseManual, retrieve, stem, tokenize } from "@/lib/rag";
+import { excerptForQuery, loadManuals, parseManual, retrieve, stem, tokenize } from "@/lib/rag";
 
 describe("rag", () => {
   const docs = loadManuals();
@@ -137,6 +137,31 @@ describe("rag", () => {
     expect(stem("replacement")).toBe("replace");
     expect(stem("adjustment")).toBe(stem("adjust"));
     expect(stem("adjustment")).toBe("adjust");
+  });
+
+  it("excerpt includes only the matching chunks, in document order", () => {
+    const docs = [
+      {
+        id: "long-manual",
+        title: "Long manual",
+        url: "https://example.com/long",
+        chunks: [
+          "This intro is about packing and shipping.",
+          "Replace the worn chain when elongation reaches the mark.",
+          "Warranty terms and contact hours for the service desk.",
+          "A second chain wear check uses the same elongation mark.",
+        ],
+      },
+    ];
+    const [hit] = retrieve("worn chain elongation", docs);
+    expect(hit.id).toBe("long-manual");
+    expect(hit.excerpt).toContain("Replace the worn chain");
+    expect(hit.excerpt).toContain("second chain wear check");
+    expect(hit.excerpt).not.toContain("packing and shipping");
+    expect(hit.excerpt).not.toContain("Warranty terms");
+    expect(excerptForQuery(docs[0].chunks, tokenize("worn chain elongation"))).toBe(
+      "Replace the worn chain when elongation reaches the mark.\nA second chain wear check uses the same elongation mark.",
+    );
   });
 
   it("rejects a manual without front matter", () => {
