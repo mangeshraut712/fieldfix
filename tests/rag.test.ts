@@ -145,6 +145,9 @@ describe("rag", () => {
     expect(stem("measured")).toBe("measure");
     expect(stem("measurement")).toBe(stem("measure"));
     expect(stem("measurement")).toBe("measure");
+    expect(stem("skipped")).toBe(stem("skip"));
+    expect(stem("skipped")).toBe("skip");
+    expect(stem("skipping")).toBe("skip");
     expect(stem("adjustment")).toBe(stem("adjust"));
     expect(stem("adjustment")).toBe("adjust");
   });
