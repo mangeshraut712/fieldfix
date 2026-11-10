@@ -17,6 +17,9 @@ const STOP = new Set(
 // both become "brake", "switches" and "switch" both become "switch".
 export function stem(t: string): string {
   // Leave short words alone so "ring", "bring" and "string" keep their stem.
+  // "housing" / "house" (cable housing in the derailleur manual). The regular
+  // -ing rule would otherwise yield "hous".
+  if (t === "housing" || t === "housings") return "house";
   if (t.endsWith("ing") && t.length - 3 >= 4) {
     const s = t.slice(0, -3);
     // "skipping" / "skip", "running" / "run": drop the consonant doubled before -ing.
