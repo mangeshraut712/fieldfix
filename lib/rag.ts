@@ -17,7 +17,19 @@ const STOP = new Set(
 // both become "brake", "switches" and "switch" both become "switch".
 export function stem(t: string): string {
   // Leave short words alone so "ring", "bring" and "string" keep their stem.
-  if (t.endsWith("ing") && t.length - 3 >= 4) return t.slice(0, -3);
+  if (t.endsWith("ing") && t.length - 3 >= 4) {
+    const s = t.slice(0, -3);
+    // "skipping" / "skip", "running" / "run": drop the consonant doubled before -ing.
+    // Leave "falling" / "fall" and "missing" / "miss" alone (ll, ss, zz).
+    if (s.length >= 3 && s[s.length - 1] === s[s.length - 2] && !/[lsz]/.test(s[s.length - 1])) {
+      return s.slice(0, -1);
+    }
+    return s;
+  }
+  // "knives" / "knife". Leave short words like "fives" to the regular -s rule.
+  if (t.endsWith("ives") && t.length >= 6) return `${t.slice(0, -4)}ife`;
+  // "shelves" / "shelf", "wolves" / "wolf", "halves" / "half".
+  if (t.endsWith("lves") && t.length >= 6) return `${t.slice(0, -3)}f`;
   // "batteries" / "battery", "accessories" / "accessory". Leave short words like "pies" alone.
   if (t.endsWith("ies") && t.length - 3 >= 3) return `${t.slice(0, -3)}y`;
   if (/(ss|x|z|ch|sh)es$/.test(t)) return t.slice(0, -2);

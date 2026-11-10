@@ -35,7 +35,7 @@ describe("rag", () => {
   });
 
   it("tokenizes and strips stop words", () => {
-    expect(tokenize("The chains are skipping!")).toEqual(["chain", "skipp"]);
+    expect(tokenize("The chains are skipping!")).toEqual(["chain", "skip"]);
   });
 
   it("does not let a custom manuals dir replace the default cache", () => {
@@ -64,6 +64,17 @@ describe("rag", () => {
     expect(stem("cities")).toBe(stem("city"));
     expect(stem("policies")).toBe(stem("policy"));
     expect(stem("ties")).not.toBe("ty");
+    expect(stem("skipping")).toBe(stem("skip"));
+    expect(stem("running")).toBe(stem("run"));
+    expect(stem("stopping")).toBe(stem("stop"));
+    expect(stem("falling")).toBe("fall");
+    expect(stem("missing")).toBe("miss");
+    expect(stem("knives")).toBe(stem("knife"));
+    expect(stem("shelves")).toBe(stem("shelf"));
+    expect(stem("halves")).toBe(stem("half"));
+    expect(stem("wolves")).toBe(stem("wolf"));
+    expect(stem("waves")).toBe(stem("wave"));
+    expect(stem("fives")).toBe(stem("five"));
   });
 
   it("rejects a manual without front matter", () => {
