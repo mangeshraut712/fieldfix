@@ -51,6 +51,9 @@ describe("rag", () => {
     expect(tokenize("at 0.75% on 10 speed")).toEqual(["0.75", "10", "speed"]);
     expect(tokenize("0.5%")).toEqual(["0.5"]);
     expect(tokenize("0.75%")).toEqual(["0.75"]);
+    // laptop-fan: "opening the heatsink" should meet a "heat sink" query.
+    expect(tokenize("heatsink")).toEqual(["heat", "sink"]);
+    expect(tokenize("heatsink")).toEqual(tokenize("heat sink"));
   });
 
   it("does not let a custom manuals dir replace the default cache", () => {

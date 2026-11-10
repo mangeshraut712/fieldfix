@@ -115,6 +115,8 @@ export function stem(t: string): string {
 export function tokenize(text: string): string[] {
   return text
     .toLowerCase()
+    // laptop-fan: "opening the heatsink" should meet "heat sink".
+    .replace(/heatsink/g, "heat sink")
     // Keep decimal points between digits so "0.5%" and "0.75%" stay as numbers
     // instead of being dropped or becoming "75".
     .replace(/(\d)\.(\d)/g, "$1\u0000$2")
