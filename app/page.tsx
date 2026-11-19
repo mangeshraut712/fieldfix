@@ -54,6 +54,8 @@ export default function Home() {
 
   async function run() {
     if (!image) return;
+    // A new photo picked while this request is in flight bumps pickSeq; drop the stale answer then.
+    const seq = pickSeq.current;
     setBusy(true);
     setError("");
     setResult(null);
@@ -65,9 +67,9 @@ export default function Home() {
       });
       const json = await res.json();
       if (!res.ok) throw new Error(json.error ?? "Request failed");
-      setResult(json);
+      if (seq === pickSeq.current) setResult(json);
     } catch (e) {
-      setError(e instanceof Error ? e.message : String(e));
+      if (seq === pickSeq.current) setError(e instanceof Error ? e.message : String(e));
     } finally {
       setBusy(false);
     }
