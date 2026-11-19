@@ -143,7 +143,8 @@ export function tokenize(text: string): string[] {
 }
 
 export function parseManual(raw: string): ManualDoc {
-  const m = raw.match(/^---\n([\s\S]*?)\n---\n([\s\S]*)$/);
+  // Accept CRLF files (e.g. a Windows checkout); otherwise every manual fails to load.
+  const m = raw.replace(/\r\n/g, "\n").match(/^---\n([\s\S]*?)\n---\n([\s\S]*)$/);
   if (!m) throw new Error("manual missing front matter");
   const meta = Object.fromEntries(
     m[1].split("\n").map((l) => {

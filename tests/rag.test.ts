@@ -231,6 +231,16 @@ describe("rag", () => {
     );
   });
 
+  it("parses a manual saved with CRLF line endings", () => {
+    const doc = parseManual("---\r\nid: crlf-doc\r\ntitle: CRLF Manual\r\nurl: https://example.com/m\r\n---\r\nFirst step.\r\nSecond step.\r\n");
+    expect(doc).toEqual({
+      id: "crlf-doc",
+      title: "CRLF Manual",
+      url: "https://example.com/m",
+      chunks: ["First step.", "Second step."],
+    });
+  });
+
   it("rejects a manual without front matter", () => {
     expect(() => parseManual("no header")).toThrow();
   });
