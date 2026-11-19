@@ -1,7 +1,11 @@
 import { z } from "zod";
 
 export const bodySchema = z.object({
-  imageDataUrl: z.string().regex(/^data:image\/(jpeg|jpg|png|webp);base64,/).max(6_000_000),
+  // Non-empty base64 payload to the end of the string: an empty or junk payload is not an image.
+  imageDataUrl: z
+    .string()
+    .regex(/^data:image\/(jpeg|jpg|png|webp);base64,[A-Za-z0-9+/]+={0,2}$/)
+    .max(6_000_000),
   symptom: z.string().max(500).default(""),
   width: z.number().int().positive().max(4096),
   height: z.number().int().positive().max(4096),

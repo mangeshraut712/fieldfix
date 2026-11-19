@@ -107,6 +107,18 @@ describe("bodySchema", () => {
     expect(res.success).toBe(false);
   });
 
+  it("rejects an empty or malformed base64 payload", () => {
+    for (const imageDataUrl of [
+      "data:image/png;base64,",
+      "data:image/png;base64,AAAA not base64",
+      "data:image/png;base64,AAAA\n<script>",
+    ]) {
+      const res = bodySchema.safeParse({ imageDataUrl, symptom: "leak", width: 100, height: 100 });
+      expect(res.success).toBe(false);
+      if (!res.success) expect(describeBodyError(res.error)).toBe("Send a JPEG, PNG or WebP image.");
+    }
+  });
+
   it("does not blame the image when the symptom is too long", () => {
     const res = bodySchema.safeParse({
       imageDataUrl: "data:image/png;base64,AAAA",
