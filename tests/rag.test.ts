@@ -206,6 +206,16 @@ describe("rag", () => {
     expect(stem("greased")).toBe("grease");
   });
 
+  it("stems -ives and single-z -zes plurals to their singular", () => {
+    expect(stem("drives")).toBe(stem("drive"));
+    expect(stem("archives")).toBe(stem("archive"));
+    expect(stem("sizes")).toBe(stem("size"));
+    expect(stem("bronzes")).toBe(stem("bronze"));
+    expect(stem("waltzes")).toBe(stem("waltz"));
+    expect(stem("quartzes")).toBe("quartz");
+    expect(stem("knives")).toBe("knife");
+  });
+
   it("excerpt includes only the matching chunks, in document order", () => {
     const docs = [
       {

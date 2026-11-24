@@ -130,6 +130,17 @@ describe("bodySchema", () => {
     }
   });
 
+  it("rejects a base64 payload whose length is not a multiple of 4", () => {
+    for (const payload of ["AAAAA", "AAA", "AAAA=", "AAAAAAA=="]) {
+      const res = bodySchema.safeParse({ imageDataUrl: `data:image/png;base64,${payload}`, symptom: "leak", width: 100, height: 100 });
+      expect(res.success).toBe(false);
+    }
+    for (const payload of ["AAAA", "AAAAAA==", "AAAAAAA="]) {
+      const ok = bodySchema.safeParse({ imageDataUrl: `data:image/png;base64,${payload}`, symptom: "leak", width: 100, height: 100 });
+      expect(ok.success).toBe(true);
+    }
+  });
+
   it("does not blame the image when the symptom is too long", () => {
     const res = bodySchema.safeParse({
       imageDataUrl: "data:image/png;base64,AAAA",
