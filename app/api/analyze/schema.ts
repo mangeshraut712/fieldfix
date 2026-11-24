@@ -5,7 +5,9 @@ export const bodySchema = z.object({
   imageDataUrl: z
     .string()
     .regex(/^data:image\/(jpeg|jpg|png|webp);base64,[A-Za-z0-9+/]+={0,2}$/)
-    .max(6_000_000),
+    .max(6_000_000)
+    // Base64 comes in groups of 4 characters; any other length is truncated or junk.
+    .refine((s) => (s.length - s.indexOf(",") - 1) % 4 === 0),
   symptom: z.string().max(500).default(""),
   width: z.number().int().positive().max(4096),
   height: z.number().int().positive().max(4096),
