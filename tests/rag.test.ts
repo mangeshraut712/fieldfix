@@ -210,6 +210,9 @@ describe("rag", () => {
     expect(stem("drives")).toBe(stem("drive"));
     expect(stem("archives")).toBe(stem("archive"));
     expect(stem("sizes")).toBe(stem("size"));
+    expect(stem("bronzes")).toBe(stem("bronze"));
+    expect(stem("waltzes")).toBe(stem("waltz"));
+    expect(stem("quartzes")).toBe("quartz");
     expect(stem("knives")).toBe("knife");
   });
 

@@ -120,7 +120,9 @@ export function stem(t: string): string {
   // "quizzes"/"quiz", "whizzes"/"whiz". The regular -zes rule would leave the
   // doubled z ("quizz"). Leave short words like "fizzes"/"fizz" on that rule.
   if (t.endsWith("izzes") && t.length >= 7) return t.slice(0, -3);
-  if (/(ss|x|zz|ch|sh)es$/.test(t)) return t.slice(0, -2);
+  // "waltzes"/"waltz", "quartzes"/"quartz". Silent-e singulars such as "sizes"/"size"
+  // and "bronzes"/"bronze" stay on the regular -s rule.
+  if (/(ss|x|zz|tz|ch|sh)es$/.test(t)) return t.slice(0, -2);
   // "bus", "gas", "focus" and "chassis" are singular already.
   if (t.endsWith("s") && !/(ss|us|is|as)$/.test(t)) return t.slice(0, -1);
   return t;
