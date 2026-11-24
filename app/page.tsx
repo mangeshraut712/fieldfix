@@ -27,6 +27,7 @@ export default function Home() {
   const [error, setError] = useState("");
   const [busy, setBusy] = useState(false);
   const [active, setActive] = useState<string | null>(null);
+  const [picking, setPicking] = useState(false);
   const [serverMode, setServerMode] = useState<string>("");
   const fileRef = useRef<HTMLInputElement>(null);
   const pickSeq = useRef(0);
@@ -41,6 +42,9 @@ export default function Home() {
     const seq = ++pickSeq.current;
     setResult(null);
     setError("");
+    // A part filter from the previous photo would dim every box of the next one.
+    setActive(null);
+    setPicking(true);
     try {
       const loaded = await loadImage(src);
       if (seq === pickSeq.current) setImage(loaded);
@@ -48,6 +52,7 @@ export default function Home() {
       // img.decode() rejects for formats the browser cannot draw (HEIC on most desktops, corrupt files).
       if (seq === pickSeq.current) setError("Could not read that photo. Try a JPEG, PNG or WebP image.");
     } finally {
+      if (seq === pickSeq.current) setPicking(false);
       if (src.startsWith("blob:")) URL.revokeObjectURL(src);
     }
   }
@@ -76,7 +81,10 @@ export default function Home() {
   }
 
   const labels = [...new Set(result?.segments.map((s) => s.label) ?? [])];
-  const color = (label: string) => COLORS[labels.indexOf(label) % COLORS.length];
+  // A step can name a part SAM did not box. indexOf is -1 there, and COLORS[-1]
+  // is undefined, so give it a neutral colour instead of borrowing a part's.
+  const UNBOXED = "#9aa0a6";
+  const color = (label: string) => (labels.includes(label) ? COLORS[labels.indexOf(label) % COLORS.length] : UNBOXED);
 
   return (
     <main>
@@ -127,7 +135,7 @@ export default function Home() {
 
           <textarea rows={2} aria-label="What is wrong" placeholder="What is wrong? e.g. chain skips and won't shift to bigger gears" value={symptom} onChange={(e) => setSymptom(e.target.value)} style={{ marginTop: 12 }} />
           <div className="row">
-            <button onClick={run} disabled={!image || busy}>{busy ? "Analyzing…" : "Diagnose"}</button>
+            <button onClick={run} disabled={!image || busy || picking}>{busy ? "Analyzing…" : "Diagnose"}</button>
             <button className="ghost" onClick={() => fileRef.current?.click()}>New photo</button>
             <button className="ghost" onClick={() => { pick("/samples/derailleur.jpg"); setSymptom("chain skips and won't shift to bigger gears"); }}>Try sample</button>
           </div>
@@ -167,7 +175,12 @@ export default function Home() {
                     <strong>{s.title.replace(/^\d+\.\s*/, "")}</strong>
                     <div>{s.detail}</div>
                     <div className="meta">
-                      {s.part && <span style={{ color: color(s.part) }}>● {s.part} </span>}
+                      {s.part && (
+                        <span style={{ color: color(s.part) }}>
+                          ● {s.part}
+                          {!labels.includes(s.part) && " (segmentation found no match)"}{" "}
+                        </span>
+                      )}
                       {s.sourceId && <a href={`#src-${s.sourceId}`}>[{s.sourceId}]</a>}
                     </div>
                   </li>
