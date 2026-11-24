@@ -39,6 +39,23 @@ export function sanitize(d: Diagnosis, partLabels: string[], sourceIds: string[]
   };
 }
 
+/**
+ * The identify schema allows repeats ("chain", " Chain"). Each repeat would
+ * cost another SAM call and render a second box with the same React key.
+ */
+export function uniqueParts(parts: string[]): string[] {
+  const seen = new Set<string>();
+  const out: string[] = [];
+  for (const part of parts) {
+    const label = part.trim();
+    const key = label.toLowerCase();
+    if (!label || seen.has(key)) continue;
+    seen.add(key);
+    out.push(label);
+  }
+  return out;
+}
+
 export async function analyze(cfg: MetaConfig, input: AnalyzeInput, deps: Deps = realDeps): Promise<AnalyzeResult> {
   const t: Record<string, number> = {};
   const time = async <T>(k: string, f: () => Promise<T>) => {
@@ -65,17 +82,18 @@ export async function analyze(cfg: MetaConfig, input: AnalyzeInput, deps: Deps =
   }
 
   const id = await time("identify", () => deps.identify(cfg, input.imageDataUrl, input.symptom));
-  const sources = retrieve(`${id.object} ${id.parts.join(" ")} ${input.symptom}`, manuals);
+  const parts = uniqueParts(id.parts);
+  const sources = retrieve(`${id.object} ${parts.join(" ")} ${input.symptom}`, manuals);
   const [segments, diagnosis] = await Promise.all([
-    time("segment", () => deps.segmentParts(cfg, input.imageDataUrl, id.parts)),
-    time("diagnose", () => deps.diagnose(cfg, input.imageDataUrl, input.symptom, id.parts, sources)),
+    time("segment", () => deps.segmentParts(cfg, input.imageDataUrl, parts)),
+    time("diagnose", () => deps.diagnose(cfg, input.imageDataUrl, input.symptom, parts, sources)),
   ]);
   return {
     mode: "live",
     model: cfg.model,
     segmentation: cfg.samModel,
     segments,
-    diagnosis: sanitize(diagnosis, id.parts, sources.map((s) => s.id)),
+    diagnosis: sanitize(diagnosis, parts, sources.map((s) => s.id)),
     sources,
     timingsMs: t,
   };

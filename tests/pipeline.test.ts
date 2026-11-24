@@ -52,6 +52,17 @@ describe("pipeline", () => {
     expect(r.segmentation).toBe("sam-3.1");
   });
 
+  it("segments and diagnoses each identified part once", async () => {
+    const deps = {
+      identify: vi.fn().mockResolvedValue({ object: "bike", parts: ["chain", " Chain ", "gear", ""] }),
+      segmentParts: vi.fn().mockResolvedValue([]),
+      diagnose: vi.fn().mockResolvedValue(MOCK_DIAGNOSIS),
+    };
+    await analyze(getConfig({ META_API_KEY: "k" }), input, deps);
+    expect(deps.segmentParts).toHaveBeenCalledWith(expect.anything(), input.imageDataUrl, ["chain", "gear"]);
+    expect(deps.diagnose.mock.calls[0][3]).toEqual(["chain", "gear"]);
+  });
+
   it("reports the configured SAM model in live mode", async () => {
     const deps = {
       identify: vi.fn().mockResolvedValue({ object: "bike", parts: ["chain"] }),
