@@ -104,8 +104,8 @@ export function stem(t: string): string {
   if (t.endsWith("arves") && t.length >= 7) return `${t.slice(0, -3)}f`;
   // "hooves" / "hoof".
   if (t.endsWith("ooves") && t.length >= 6) return `${t.slice(0, -3)}f`;
-  // "knives" / "knife". Leave short words like "fives" to the regular -s rule.
-  if (t.endsWith("ives") && t.length >= 6) return `${t.slice(0, -4)}ife`;
+  // Only "knives" and "wives" take this form; "drives" / "drive" stay on the regular -s rule.
+  if (t === "knives" || t === "wives") return `${t.slice(0, -4)}ife`;
   // "shelves" / "shelf", "wolves" / "wolf", "halves" / "half", "calves" / "calf".
   // Leave "valves" / "valve" and "solves" / "solve" on the regular -s rule.
   if (t === "shelves" || t === "wolves" || t === "halves" || t === "calves") return `${t.slice(0, -3)}f`;
@@ -120,7 +120,7 @@ export function stem(t: string): string {
   // "quizzes"/"quiz", "whizzes"/"whiz". The regular -zes rule would leave the
   // doubled z ("quizz"). Leave short words like "fizzes"/"fizz" on that rule.
   if (t.endsWith("izzes") && t.length >= 7) return t.slice(0, -3);
-  if (/(ss|x|z|ch|sh)es$/.test(t)) return t.slice(0, -2);
+  if (/(ss|x|zz|ch|sh)es$/.test(t)) return t.slice(0, -2);
   // "bus", "gas", "focus" and "chassis" are singular already.
   if (t.endsWith("s") && !/(ss|us|is|as)$/.test(t)) return t.slice(0, -1);
   return t;
