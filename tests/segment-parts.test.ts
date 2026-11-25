@@ -23,7 +23,23 @@ describe("segmentParts", () => {
     const segments = await segmentParts(cfg, "data:image/png;base64,AAAA", ["chain", "gear"]);
     expect(segments).toEqual([]);
     expect(error).toHaveBeenCalledTimes(2);
-    expect(error).toHaveBeenCalledWith('segment failed for "chain"', "429 rate limit exceeded");
+    expect(error).toHaveBeenCalledWith('segment failed for "chain"', '"429 rate limit exceeded"');
+    error.mockRestore();
+  });
+
+  it("escapes line breaks in part labels so a label cannot forge log lines", async () => {
+    const error = vi.spyOn(console, "error").mockImplementation(() => {});
+    const cfg: MetaConfig = {
+      apiKey: "test-key",
+      baseURL: "https://example.invalid/v1",
+      model: "muse-spark-1.3",
+      samModel: "sam-3.1",
+      mode: "live",
+    };
+    await segmentParts(cfg, "data:image/png;base64,AAAA", ["chain\nINFO forged entry"]);
+    const logged = error.mock.calls.map((args) => args.join(" ")).join(" ");
+    expect(logged).not.toMatch(/\n/);
+    expect(logged).toContain(String.raw`"chain\nINFO forged entry"`);
     error.mockRestore();
   });
 });
