@@ -64,6 +64,13 @@ describe("rag", () => {
     fs.rmSync(dir, { recursive: true, force: true });
   });
 
+  it("stems -ing forms of curated e-final verbs to the manual's verb", () => {
+    expect(stem("measuring")).toBe(stem("measure"));
+    expect(stem("lubricating")).toBe(stem("lubricate"));
+    expect(stem("reassembling")).toBe(stem("reassemble"));
+    expect(stem("greasing")).toBe(stem("grease"));
+  });
+
   it("stems singular and plural forms to the same token", () => {
     expect(stem("brakes")).toBe(stem("brake"));
     expect(stem("cables")).toBe(stem("cable"));

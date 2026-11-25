@@ -40,16 +40,16 @@ export function stem(t: string): string {
   // faucet: "Remove the handle cap". The regular -ing rule yields "remov".
   if (t === "removing" || t === "removed") return "remove";
   // chain-wear: "Measure with a chain checker".
-  if (t === "measured" || t === "measurement") return "measure";
+  if (t === "measured" || t === "measurement" || t === "measuring") return "measure";
   // chain-wear / derailleur: "skips under load", "skipping that cable tension cannot fix".
   if (t === "skipped") return "skip";
   // derailleur: "shift to the smallest cog", "ghost shifting".
   if (t === "shifted") return "shift";
   // chain-wear: "apply one drop of lubricant per roller".
   if (t === "lubricant" || t === "lubrication") return "lubricate";
-  if (t === "lubricated") return "lubricate";
+  if (t === "lubricated" || t === "lubricating") return "lubricate";
   // faucet: "Reassemble in reverse order".
-  if (t === "reassemble" || t === "reassembled" || t === "assembling" || t === "assembled") return "assemble";
+  if (t === "reassemble" || t === "reassembled" || t === "assembling" || t === "assembled" || t === "reassembling") return "assemble";
   // chain-wear: "Chains elongate as pins and rollers wear."
   if (t === "elongation" || t === "elongated") return "elongate";
   // laptop-fan: "Blow compressed air into the intake and exhaust vents".
@@ -86,7 +86,7 @@ export function stem(t: string): string {
   // chain-wear: "Rust or stiff links should be freed or the chain replaced".
   if (t === "rusted") return "rust";
   // faucet: "O-rings coated with silicone plumber's grease".
-  if (t === "greased") return "grease";
+  if (t === "greased" || t === "greasing") return "grease";
   if (t.endsWith("ing") && t.length - 3 >= 4) {
     const s = t.slice(0, -3);
     // "skipping" / "skip", "running" / "run": drop the consonant doubled before -ing.
