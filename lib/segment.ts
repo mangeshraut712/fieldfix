@@ -47,5 +47,13 @@ export async function segmentParts(cfg: MetaConfig, imageDataUrl: string, parts:
     return segmentsFromResult(label, result).slice(0, 3);
   });
   const settled = await Promise.allSettled(runs);
-  return settled.flatMap((s) => (s.status === "fulfilled" ? s.value : []));
+  return settled.flatMap((s, i) => {
+    if (s.status === "fulfilled") return s.value;
+    // Dropping the failed part keeps the rest of the answer; doing it without a
+    // trace hid a wrong samModel or a rate limit behind 200s with no boxes.
+    // Labels come from the submitted symptom; quote them so line breaks cannot forge log lines.
+    const cause = s.reason instanceof Error ? s.reason.message : String(s.reason);
+    console.error(`segment failed for ${JSON.stringify(parts[i])}`, JSON.stringify(cause));
+    return [];
+  });
 }
