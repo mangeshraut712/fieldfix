@@ -1,6 +1,6 @@
 # FieldFix
 
-Take a photo of something broken, say what is wrong, and get a map of the parts plus repair steps you can follow. Each step points at the part it touches and at the manual excerpt it came from.
+Take a photo of something broken, say what is wrong, and get a map of the parts plus repair steps you can follow. Each step points at the part it touches and at the manual excerpt it came from, when one applies.
 
 Built for the Meta Global AI Developer Hackathon 2026 (Indie track, "Build for Your World").
 
@@ -89,7 +89,7 @@ Tests cover config and mock switching, retrieval quality on each manual, the pip
 
 ## Limits
 
-- Repair advice is AI-generated and can be wrong. The app always shows safety notes and a stop point.
+- Repair advice is AI-generated and can be wrong. The app always shows a stop point, plus safety notes whenever the model returns any.
 - Five manuals is a small corpus. Problems outside it get steps without citations.
 - SAM sometimes finds no match for a part name; the UI says so instead of guessing.
 
