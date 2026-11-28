@@ -216,7 +216,7 @@ export default function Home() {
                     aria-pressed={s.part ? active === s.part : undefined}
                     role={s.part ? "button" : undefined}
                     onClick={() => s.part && setActive(s.part)}
-                    onKeyDown={(e) => { if (s.part && (e.key === "Enter" || e.key === " ")) { e.preventDefault(); setActive(s.part); } }}
+                    onKeyDown={(e) => { if (e.target === e.currentTarget && s.part && (e.key === "Enter" || e.key === " ")) { e.preventDefault(); setActive(s.part); } }}
                     onMouseEnter={() => s.part && setActive(s.part)}
                     onMouseLeave={(e) => setActive(document.activeElement === e.currentTarget ? s.part : null)}
                     onFocus={() => s.part && setActive(s.part)}
