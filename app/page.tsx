@@ -88,11 +88,14 @@ export default function Home() {
 
   return (
     <main>
-      <h1>
-        FieldFix
-        {serverMode && <span className={`badge ${serverMode}`}>{serverMode === "mock" ? "MOCK MODE: no API key, canned output" : "LIVE: Meta Model API"}</span>}
-      </h1>
-      <p className="sub">Take a photo of the broken thing, say what is wrong, get a parts map and repair steps backed by real manuals.</p>
+      <header className="workbench">
+        <div>
+          <h1>FieldFix</h1>
+          <p className="sub">Photograph the part and describe the fault to see a parts map and repair steps.</p>
+          {serverMode && <p className={`badge ${serverMode}`}>{serverMode === "mock" ? "Demo · Uses a sample diagnosis" : "Live analysis · Meta Model API"}</p>}
+        </div>
+        <img src="/samples/derailleur.jpg" alt="Bicycle rear derailleur used in the sample repair" />
+      </header>
 
       <div className="grid">
         <section className="panel">
@@ -133,11 +136,12 @@ export default function Home() {
               if (file) pick(URL.createObjectURL(file));
             }} />
 
-          <textarea rows={2} aria-label="What is wrong" placeholder="What is wrong? e.g. chain skips and won't shift to bigger gears" value={symptom} onChange={(e) => setSymptom(e.target.value)} style={{ marginTop: 12 }} />
+          <label className="symptom" htmlFor="symptom">Describe the fault</label>
+          <textarea id="symptom" rows={2} placeholder="What is wrong? e.g. chain skips and won't shift to bigger gears" value={symptom} onChange={(e) => setSymptom(e.target.value)} />
           <div className="row">
             <button onClick={run} disabled={!image || busy || picking}>{busy ? "Analyzing…" : "Diagnose"}</button>
-            <button className="ghost" onClick={() => fileRef.current?.click()}>New photo</button>
-            <button className="ghost" onClick={() => { pick("/samples/derailleur.jpg"); setSymptom("chain skips and won't shift to bigger gears"); }}>Try sample</button>
+            {image && <button className="ghost" onClick={() => fileRef.current?.click()}>Change photo</button>}
+            <button className="ghost" onClick={() => { pick("/samples/derailleur.jpg"); setSymptom("chain skips and won't shift to bigger gears"); }}>Use bicycle example</button>
           </div>
           {result && (
             <div className="chips">

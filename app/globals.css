@@ -2,10 +2,10 @@
 * { box-sizing: border-box; }
 body { margin:0; background:var(--bg); color:var(--text); font:15px/1.55 system-ui, -apple-system, Segoe UI, sans-serif; }
 main { max-width:1180px; margin:0 auto; padding:28px 20px 60px; }
-h1 { margin:0; font-size:28px; letter-spacing:-.02em; }
+h1 { margin:0; font-size:clamp(2.8rem,7vw,5.5rem); line-height:1; letter-spacing:-.055em; }
 h2 { font-size:16px; margin:0 0 10px; }
 .sub { color:var(--muted); margin:4px 0 20px; }
-.badge { display:inline-block; padding:2px 8px; border-radius:99px; font-size:12px; font-weight:600; margin-left:8px; vertical-align:middle; }
+.badge { display:inline-block; padding:2px 8px; border-radius:99px; font-size:12px; font-weight:600; margin:0; vertical-align:middle; }
 .badge.mock { background:#5a3b00; color:#ffd27a; }
 .badge.live { background:#0f3d2a; color:var(--ok); }
 .grid { display:grid; grid-template-columns: 1.15fr 1fr; gap:20px; }
@@ -35,3 +35,9 @@ ol.steps li.on { border-color:var(--accent); background:#1f1a10; }
 a { color:var(--accent); }
 .err { color:#ff8080; }
 .small { font-size:12px; color:var(--muted); }
+
+.workbench { display:grid; grid-template-columns:3fr 2fr; align-items:center; gap:2rem; padding-bottom:1.25rem; margin-bottom:1.5rem; border-bottom:2px solid var(--accent); }
+.workbench img { width:100%; height:clamp(9rem,18vw,14rem); object-fit:cover; }
+.workbench .sub { max-width:48ch; margin:.8rem 0; }
+.symptom { display:block; font-weight:650; margin:1rem 0 .3rem; }
+@media(max-width:540px) { .workbench { grid-template-columns:1fr; gap:.9rem; } .workbench img { height:7rem; } }
